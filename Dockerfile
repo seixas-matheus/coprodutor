@@ -1,17 +1,20 @@
 # 1. Imagem Base
 FROM php:8.2-apache
 
-# 2. Instalar dependências de sistema E a biblioteca libzip-dev (Crucial para o erro)
+# 2. Instalar dependências de sistema
+# Adicionei 'libicu-dev' que é obrigatório para a extensão intl
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
+    libicu-dev \
     zip \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd opcache zip
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd opcache zip intl
 
 # 3. Configurar Apache
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
@@ -28,7 +31,7 @@ WORKDIR /var/www/html
 # 6. Copiar arquivos
 COPY . /var/www/html
 
-# 7. CORREÇÃO DE SEGURANÇA GIT (Resolve o erro "dubious ownership")
+# 7. Correção de segurança do Git
 RUN git config --global --add safe.directory /var/www/html
 
 # 8. Instalar dependências
