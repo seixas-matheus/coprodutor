@@ -1,42 +1,44 @@
-# 1. Imagem Base (PHP 8.2 com Apache)
+# 1. Imagem Base
 FROM php:8.2-apache
 
-# 2. Instalar dependências essenciais e Opcache (Performance)
+# 2. Instalar dependências de sistema E a biblioteca libzip-dev (Crucial para o erro)
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd opcache
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd opcache zip
 
-# 3. Configurar Apache para ler a pasta /public (Padrão Laravel/Moderno)
+# 3. Configurar Apache
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
-
-# 4. Habilitar Mod Rewrite (Para URLs amigáveis funcionarem)
 RUN a2enmod rewrite
 
-# 5. Instalar Composer
+# 4. Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 6. Configurar diretório de trabalho
+# 5. Configurar diretório
 WORKDIR /var/www/html
 
-# 7. Copiar arquivos do projeto
+# 6. Copiar arquivos
 COPY . /var/www/html
 
-# 8. Instalar dependências (Otimizado)
+# 7. CORREÇÃO DE SEGURANÇA GIT (Resolve o erro "dubious ownership")
+RUN git config --global --add safe.directory /var/www/html
+
+# 8. Instalar dependências
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# 9. Ajustar Permissões (Evita Erro 500/Permission Denied)
+# 9. Permissões
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
-# 10. Expor porta 80 e Iniciar
+# 10. Start
 EXPOSE 80
 CMD ["apache2-foreground"]
