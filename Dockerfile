@@ -10,32 +10,36 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
+    libzip-dev \
     libicu-dev \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-# 3. INSTALAR O COMPOSER (Isso resolve o erro que deu antes)
+# 3. Configurar Git para confiar na pasta (Resolve o erro "dubious ownership")
+RUN git config --global --add safe.directory /var/www/html
+
+# 4. INSTALAR O COMPOSER
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 4. Instalar extensões PHP
+# 5. Instalar extensões PHP (Adicionada a extensão ZIP que faltava)
 RUN docker-php-ext-configure intl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip
 
-# 5. Configurar Apache para ler a pasta PUBLIC
+# 6. Configurar Apache para ler a pasta PUBLIC
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN a2enmod rewrite
 
-# 6. Copiar arquivos
+# 7. Copiar arquivos
 WORKDIR /var/www/html
 COPY . .
 
-# 7. Rodar instalações
+# 8. Rodar instalações
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 RUN npm install && npm run build
 
-# 8. Permissões Finais
+# 9. Permissões Finais
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
