@@ -11,6 +11,10 @@ x-avatar,
   }
 
   & > img {
+    @apply absolute top-0 left-0 object-cover w-full h-full rounded-full z-10;
+  }
+
+  & > canvas {
     @apply absolute top-0 left-0 object-cover w-full h-full rounded-full;
   }
 

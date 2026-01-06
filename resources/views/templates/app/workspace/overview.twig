@@ -63,7 +63,7 @@
 			<div class="flex justify-between items-center">
 				<div>
 					<h2>{{ p__('heading', 'Team') }}</h2>
-					<div class="text-xs text-content-dimmed">
+					<div class="text-sm text-content-dimmed">
 						{{ n__('Total :count member', 'Total :count members', workspace.users|length + 1)|replace({':count' : '<span x-text="$store.workspace.users.length + 1"></span>'})|raw }}
 					</div>
 				</div>
@@ -542,6 +542,13 @@
 			</x-form>
 		{% endif %}
 
+		{# Plugin-injected sections #}
+		{% for section in nav.app.workspace.sections.items|default([]) %}
+			{% if section.template is defined %}
+				{% include section.template %}
+			{% endif %}
+		{% endfor %}
+
 		<template x-if="$store.user.id == $store.workspace.owner.id && $store.user.owned_workspaces.length > 1">
 			<section class="flex flex-col gap-6 box" data-density="comfortable">
 				<h2>{{ p__('heading', 'Danger zone') }}</h2>
@@ -803,7 +810,7 @@
 		<script>
 			let str = "You've been added to the :name workspace!";
 let msg = window.locale.messages[str] || str
-window.toast.show(msg.replace(":name", '<strong class="font-bold">          {{ workspace.name }}</strong>'), 'text-2xl ti ti-square-rounded-check-filled');
+window.toast.show(msg.replace(":name", '<strong class="font-bold">              {{ workspace.name }}</strong>'), 'text-2xl ti ti-square-rounded-check-filled');
 		</script>
 	{% endif %}
 {% endblock %}

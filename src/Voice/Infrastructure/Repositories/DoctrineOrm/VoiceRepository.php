@@ -287,7 +287,8 @@ class VoiceRepository extends AbstractRepository implements
             static function (QueryBuilder $qb) use ($query) {
                 $qb->andWhere(
                     $qb->expr()->orX(
-                        self::ALIAS . '.name.value LIKE :search'
+                        self::ALIAS . '.name.value LIKE :search',
+                        self::ALIAS . '.accent LIKE :search'
                     )
                 )->setParameter('search', '%' . $query . '%');
             }

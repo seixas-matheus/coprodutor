@@ -15,7 +15,6 @@ use Ai\Domain\Video\VideoServiceInterface;
 use Ai\Infrastructure\Services\AbstractBaseService;
 use Ai\Infrastructure\Services\CostCalculator;
 use Doctrine\ORM\EntityManagerInterface;
-use Easy\Container\Attributes\Inject;
 use Override;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -34,12 +33,6 @@ class VideoService extends AbstractBaseService implements VideoServiceInterface
         private ModelRegistry $registry,
         private EntityManagerInterface $em,
         private StreamFactoryInterface $streamFactory,
-
-        #[Inject('option.features.is_safety_enabled')]
-        private bool $checkSafety = true,
-
-        #[Inject('option.features.video.is_enabled')]
-        private bool $isToolEnabled = false,
     ) {
         parent::__construct($registry, 'openai', 'video');
     }

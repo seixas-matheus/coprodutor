@@ -83,7 +83,7 @@ list("/library/conversations",
 							<div x-html="doc.title || `{{ __('Untitled resource') }}`" class="line-clamp-1" :class="doc.title ? '' : 'text-content-dimmed'"></div>
 
 							<div class="mt-1 text-xs text-content-dimmed">
-								<x-time :datetime="doc.updated_at" data-type="date"></x-time>
+								<x-time :datetime="doc.created_at || doc.updated_at" data-type="date"></x-time>
 							</div>
 						</div>
 					</div>
@@ -119,7 +119,7 @@ list("/library/conversations",
 		</ul>
 	</div>
 
-{% include "sections/delete-modal.twig" with { 
+	{% include "sections/delete-modal.twig" with { 
   message: __('Do you really want to delete the conversation?'),
   title: 'currentResource.title',
   details: __('All associated content and files will be permanently removed. This action cannot be reverted once confirmed.')

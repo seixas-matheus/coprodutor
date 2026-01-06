@@ -13,24 +13,24 @@ use Shared\Domain\Exceptions\InvalidValueException;
 #[ORM\Embeddable]
 class Url implements JsonSerializable
 {
-    #[ORM\Column(type: Types::TEXT, name: "url")]
-    public readonly string $value;
+    #[ORM\Column(type: Types::TEXT, name: "url", nullable: true)]
+    public readonly ?string $value;
 
-    public function __construct(string $value)
+    public function __construct(?string $value = null)
     {
         $this->ensureValueIsValid($value);
         $this->value = $value;
     }
 
     #[Override]
-    public function jsonSerialize(): string
+    public function jsonSerialize(): ?string
     {
         return $this->value;
     }
 
-    private function ensureValueIsValid(string $value): void
+    private function ensureValueIsValid(?string $value): void
     {
-        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+        if (!is_null($value) && !filter_var($value, FILTER_VALIDATE_URL)) {
             throw new InvalidValueException(sprintf(
                 '<%s> does not allow the value <%s>.',
                 static::class,

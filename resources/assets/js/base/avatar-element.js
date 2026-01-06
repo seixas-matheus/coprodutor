@@ -51,7 +51,15 @@ export class AvatarElement extends HTMLElement {
 
         this.innerHTML = '';
 
-        if (icon) {
+        if (src) {
+            let el = document.createElement('img');
+            el.src = src;
+            el.alt = title;
+
+            if (el) {
+                this.appendChild(el);
+            }
+        } else if (icon) {
             if (icon.startsWith('<svg')) {
                 this.innerHTML += icon;
             } else {
@@ -77,16 +85,8 @@ export class AvatarElement extends HTMLElement {
             blurhashDom.setAttribute('width', '56');
             blurhashDom.setAttribute('height', '56');
             blurhashDom.setAttribute('hash', hash);
-        }
 
-        if (src) {
-            let el = document.createElement('img');
-            el.src = src;
-            el.alt = title;
-
-            if (el) {
-                this.appendChild(el);
-            }
+            this.appendChild(blurhashDom);
         }
 
         if (mask) {

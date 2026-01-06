@@ -1050,6 +1050,113 @@
                 },
                 {
                     "type": "image",
+                    "key": "gpt-image-1.5",
+                    "name": "GPT Image 1.5",
+                    "description": "State-of-the-art image generation model",
+                    "multiplier": 6250,
+                    "modalities": {
+                        "input": [
+                            "text",
+                            "image"
+                        ],
+                        "output": [
+                            "image"
+                        ]
+                    },
+                    "attributes": {
+                        "performance": 5,
+                        "speed": 3
+                    },
+                    "rates": [
+                        {
+                            "key": "gpt-image-1.5-input",
+                            "type": "input",
+                            "unit": "token"
+                        },
+                        {
+                            "key": "gpt-image-1.5-image",
+                            "type": "image",
+                            "unit": "token"
+                        },
+                        {
+                            "key": "gpt-image-1.5-output",
+                            "type": "output",
+                            "unit": "token"
+                        }
+                    ],
+                    "config": {
+                        "prompt_length": 32000,
+                        "negative_prompt": false,
+                        "images": {
+                            "required": false,
+                            "limit": 16,
+                            "size": 25600,
+                            "mime": [
+                                "image/png",
+                                "image/jpeg",
+                                "image/webp"
+                            ]
+                        },
+                        "params": [
+                            {
+                                "key": "size",
+                                "label": "Size",
+                                "options": [
+                                    {
+                                        "value": "1024x1024",
+                                        "label": "1024x1024"
+                                    },
+                                    {
+                                        "value": "1536x1024",
+                                        "label": "1536x1024"
+                                    },
+                                    {
+                                        "value": "1024x1536",
+                                        "label": "1024x1536"
+                                    }
+                                ]
+                            },
+                            {
+                                "key": "background",
+                                "label": "Background",
+                                "options": [
+                                    {
+                                        "value": "auto",
+                                        "label": "Auto"
+                                    },
+                                    {
+                                        "value": "transparent",
+                                        "label": "Transparent"
+                                    },
+                                    {
+                                        "value": "opaque",
+                                        "label": "Opaque"
+                                    }
+                                ]
+                            },
+                            {
+                                "key": "quality",
+                                "label": "Quality",
+                                "options": [
+                                    {
+                                        "value": "high",
+                                        "label": "High"
+                                    },
+                                    {
+                                        "value": "medium",
+                                        "label": "Medium"
+                                    },
+                                    {
+                                        "value": "low",
+                                        "label": "Low"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "image",
                     "key": "gpt-image-1",
                     "name": "GPT Image 1",
                     "description": "State-of-the-art image generation model",
@@ -2804,7 +2911,7 @@
             ]
         },
         {
-            "key": "google",
+            "key": "gcp",
             "name": "Google",
             "icon": "/assets/icons/monochrome/google.svg",
             "models": [

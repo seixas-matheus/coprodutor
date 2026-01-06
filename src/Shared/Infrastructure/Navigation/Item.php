@@ -36,6 +36,9 @@ class Item
     /** @var bool Whether the navigation item is built-in */
     public bool $isBuiltIn = true;
 
+    /** @var string|null Optional template path for injectable sections */
+    public ?string $template = null;
+
     /**
      * Creates a new navigation item.
      *

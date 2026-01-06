@@ -193,6 +193,21 @@ class MessageEntity
         return $this->createdAt;
     }
 
+    /**
+     * Set the creation timestamp.
+     *
+     * Note: This method is primarily intended for migration scenarios where
+     * original timestamps from imported conversations need to be preserved.
+     * In normal application flow, the timestamp is set during entity creation
+     * via the factory methods (userMessage/assistantMessage).
+     *
+     * @param DateTimeInterface $createdAt The creation timestamp
+     */
+    public function setCreatedAt(DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function getConversation(): ConversationEntity
     {
         return $this->conversation;
@@ -201,6 +216,21 @@ class MessageEntity
     public function getParent(): ?MessageEntity
     {
         return $this->parent;
+    }
+
+    /**
+     * Set the parent message.
+     *
+     * Note: This method is primarily intended for migration scenarios where
+     * parent-child relationships need to be established after entity creation.
+     * In normal application flow, the parent is set during entity creation
+     * via the factory methods (userMessage/assistantMessage).
+     *
+     * @param MessageEntity|null $parent The parent message entity
+     */
+    public function setParent(?MessageEntity $parent): void
+    {
+        $this->parent = $parent;
     }
 
     public function getAssistant(): ?AssistantEntity

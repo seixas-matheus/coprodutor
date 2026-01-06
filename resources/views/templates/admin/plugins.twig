@@ -105,9 +105,9 @@ plugins({{ strings|json_encode()}})
 						<div class="flex items-center gap-4">
 							<h2>
 								<template x-if="plugin.default_url">
-									<a :href="plugin.default_url" class="font-bold text-content group flex items-center">
+									<a :href="plugin.default_url" class="font-bold text-content group flex items-center gap-1">
 										<span x-text="plugin.title || plugin.name" class="group-hover:underline"></span>
-										<i class="ti ti-chevron-right text-content-dimmed group-hover:text-content group-hover:translate-x-1 transition-all"></i>
+										<i class="ti ti-settings text-content-dimmed group-hover:text-content transition-all"></i>
 									</a>
 								</template>
 

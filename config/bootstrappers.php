@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Affiliate\Infrastructure\AffiliateModuleBootstrapper;
 use Ai\Infrastructure\AiModuleBootstrapper;
 use Assistant\Infrastructure\AssistantModuleBootstrapper;
+use Import\Infrastructure\ImportModuleBootstrapper;
 use Category\Infrastructure\CategoryModuleBootstrapper;
 use Billing\Infrastructure\BillingModuleBootstrapper;
 use File\Infrastructure\FileModuleBootstrapper;
@@ -34,6 +35,7 @@ return [
     BillingModuleBootstrapper::class,
     VoiceModuleBootstrapper::class,
     AiModuleBootstrapper::class,
+    ImportModuleBootstrapper::class,
     StatModuleBootstrapper::class,
     AssistantModuleBootstrapper::class,
     AffiliateModuleBootstrapper::class,

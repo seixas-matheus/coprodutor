@@ -146,6 +146,44 @@ chat(
 						</button>
 					</div>
 
+					<template x-if="conversation.meta?.migration">
+						<div class="text-xs text-content-dimmed">
+							<i class="ti ti-info-square-rounded"></i>
+							{% set time %}
+							<x-time :datetime="conversation.meta.migration.imported_at" data-type="datetime"></x-time>
+							{% endset %}
+
+							{% set provider %}
+							<span>
+								<template x-if="conversation.meta.migration.provider == 'chatgpt'">
+									<a :href="`https://chatgpt.com/c/${conversation.meta.migration.original_id}`" target="_blank" class="text-content hover:underline">
+										{{ p__('label', 'ChatGPT') }}
+									</a>
+								</template>
+
+								<template x-if="conversation.meta.migration.provider == 'claude'">
+									<a :href="`https://claude.ai/chat/${conversation.meta.migration.original_id}`" target="_blank" class="text-content hover:underline">
+										{{ p__('label', 'Claude') }}
+									</a>
+								</template>
+
+								<template x-if="conversation.meta.migration.provider == 'grok'">
+									<a :href="`https://grok.com/c/${conversation.meta.migration.original_id}`" target="_blank" class="text-content hover:underline">
+										{{ p__('label', 'Grok') }}
+									</a>
+								</template>
+
+								<template x-if="!['chatgpt','claude','grok'].includes(conversation.meta.migration.provider)">
+									<span x-text="conversation.meta.migration.provider"></span>
+								</template>
+							</span>
+							{% endset %}
+
+							{{ p__('label', 'Imported from :provider on :time')|replace({':provider': provider, ':time': time})|raw }}.
+
+						</div>
+					</template>
+
 					<div class="flex flex-col gap-6 md:gap-10 mt-6">
 						<template x-for="node in tree">
 							<div class="last:min-h-[calc(100dvh-18rem)] lg:last:min-h-[calc(100dvh-15.5rem)]">

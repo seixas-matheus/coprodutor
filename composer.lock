@@ -3027,16 +3027,16 @@
         },
         {
             "name": "heyaikeedo/composer",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heyaikeedo/composer.git",
-                "reference": "261f00af5974975161c4efa3811a1748c33cbd50"
+                "reference": "edfb2b4cc2ed256390c3ec3520f1df84a3040331"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heyaikeedo/composer/zipball/261f00af5974975161c4efa3811a1748c33cbd50",
-                "reference": "261f00af5974975161c4efa3811a1748c33cbd50",
+                "url": "https://api.github.com/repos/heyaikeedo/composer/zipball/edfb2b4cc2ed256390c3ec3520f1df84a3040331",
+                "reference": "edfb2b4cc2ed256390c3ec3520f1df84a3040331",
                 "shasum": ""
             },
             "require": {
@@ -3083,9 +3083,9 @@
             ],
             "support": {
                 "issues": "https://github.com/heyaikeedo/composer/issues",
-                "source": "https://github.com/heyaikeedo/composer/tree/v1.1.0"
+                "source": "https://github.com/heyaikeedo/composer/tree/v1.2.0"
             },
-            "time": "2025-03-04T14:23:00+00:00"
+            "time": "2025-12-19T08:59:45+00:00"
         },
         {
             "name": "heyaikeedo/default",

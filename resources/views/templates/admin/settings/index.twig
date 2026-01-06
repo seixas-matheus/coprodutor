@@ -76,6 +76,33 @@
 					</p>
 				</div>
 			</a>
+
+			{% for item in nav.admin.settings.common.items|default([]) %}
+				<a href="{{ item.url }}" class="flex gap-4 items-center box hover:border-line">
+					{% if item.icon %}
+						<x-avatar icon="{{ item.icon }}"></x-avatar>
+					{% endif %}
+
+					<div>
+						<div class="flex gap-2 items-center label">
+							<h3>{{ p__('nav', item.label) }}</h3>
+
+							<div class="flex gap-1 items-center">
+								{% if item.isExperimental %}
+									<i class="text-base cursor-auto ti ti-test-pipe text-content-dimmed hover:text-content" x-tooltip.raw="{{ __('Experimental') }}"></i>
+								{% endif %}
+
+								{% if item.isBuiltIn == false %}
+									<i class="text-base cursor-auto ti ti-puzzle text-content-dimmed hover:text-content" x-tooltip.raw="{{ __('Plugin addition') }}"></i>
+								{% endif %}
+							</div>
+						</div>
+						<p class="mt-1 text-sm text-content-dimmed">
+							{{ p__('nav', item.description) }}
+						</p>
+					</div>
+				</a>
+			{% endfor %}
 		</div>
 	</div>
 

@@ -25,6 +25,9 @@ import { videoView } from './video.js';
 import { modelsView } from './models.js';
 import { mask } from '@alpinejs/mask';
 import { assistantView } from './assistant.js';
+import api from './api.js';
+
+window.api = api;
 
 initState();
 dashboardView();

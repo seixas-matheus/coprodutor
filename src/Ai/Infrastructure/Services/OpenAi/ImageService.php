@@ -43,10 +43,7 @@ class ImageService extends AbstractBaseService implements ImageServiceInterface
         private EntityManagerInterface $em,
 
         #[Inject('option.features.is_safety_enabled')]
-        private bool $checkSafety = true,
-
-        #[Inject('option.features.imagine.is_enabled')]
-        private bool $isToolEnabled = false,
+        private bool $checkSafety = true
     ) {
         parent::__construct($registry, 'openai', 'image');
     }
@@ -107,7 +104,7 @@ class ImageService extends AbstractBaseService implements ImageServiceInterface
 
         $resources = [];
         if (
-            $model->value === 'gpt-image-1'
+            $model->value !== 'dall-e-3'
             && isset($params['images']) && is_array($params['images']) && count($params['images']) > 0
         ) {
             /** @var UploadedFileInterface $image */
@@ -156,12 +153,7 @@ class ImageService extends AbstractBaseService implements ImageServiceInterface
         if ($this->client->hasCustomKey()) {
             // Cost is not calculated for custom keys,
             $cost = new CreditCount(0);
-        } else if ($model->value === 'gpt-image-1') {
-            $tc = $this->calc->calculate($resp->usage->input_tokens_details->text_tokens, $model, CostCalculator::INPUT);
-            $ic = $this->calc->calculate($resp->usage->input_tokens_details->image_tokens, $model, CostCalculator::IMAGE);
-            $oc = $this->calc->calculate($resp->usage->output_tokens, $model, CostCalculator::OUTPUT);
-            $cost = new CreditCount($tc->value + $ic->value + $oc->value);
-        } else {
+        } else if ($model->value === 'dall-e-3') {
             $flags = isset($data['quality']) && $data['quality'] == 'hd'
                 ? CostCalculator::QUALITY_HD
                 : CostCalculator::QUALITY_SD;
@@ -184,6 +176,11 @@ class ImageService extends AbstractBaseService implements ImageServiceInterface
                 $model,
                 $flags
             );
+        } else {
+            $tc = $this->calc->calculate($resp->usage->input_tokens_details->text_tokens, $model, CostCalculator::INPUT);
+            $ic = $this->calc->calculate($resp->usage->input_tokens_details->image_tokens, $model, CostCalculator::IMAGE);
+            $oc = $this->calc->calculate($resp->usage->output_tokens, $model, CostCalculator::OUTPUT);
+            $cost = new CreditCount($tc->value + $ic->value + $oc->value);
         }
 
         // Save image to CDN
